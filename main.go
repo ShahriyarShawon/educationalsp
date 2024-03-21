@@ -2,12 +2,12 @@ package main
 
 import (
 	"bufio"
+	"educationalsp/lsp"
 	"educationalsp/rpc"
+	"encoding/json"
 	"log"
 	"os"
 )
-
-
 
 func main() {
 	logger := getLogger("/home/shahriyar/Documents/programming/go/educationalsp/log.txt")
@@ -25,12 +25,25 @@ func main() {
 			continue
 		}
 
-		handleMessage(logger, msg)
+		handleMessage(logger, method, contents)
 	}
 }
 
-func handleMessage(logger *log.Logger, msg any) {
-	logger.Println(msg)
+func handleMessage(logger *log.Logger, method string, contents []byte) {
+	logger.Printf("Received msg with method: %s\n", method)
+
+	switch method {
+	case "initialize":
+		var request lsp.InitializeRequest
+
+		if err := json.Unmarshal(contents, &request); err != nil {
+			logger.Printf("Hey we couldnt parse this %s", err)
+		}
+
+		logger.Printf("Connected to: %s %s",
+			request.Params.ClientInfo.Name,
+			request.Params.ClientInfo.Version)
+	}
 }
 
 func getLogger(filename string) *log.Logger {

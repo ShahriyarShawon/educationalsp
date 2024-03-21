@@ -1,8 +1,8 @@
-package lsp 
+package lsp
 
 type Request struct {
-	RPC string `json:"jsonrpc"`
-	ID int `json:"id"`
+	RPC    string `json:"jsonrpc"`
+	ID     int    `json:"id"`
 	Method string `json:"method"`
 
 	// params
@@ -10,13 +10,13 @@ type Request struct {
 
 type Response struct {
 	RPC string `json:"jsonrpc"`
-	ID *int `json:"id,omitempty"`
-	
-	// Result 
+	ID  *int   `json:"id,omitempty"`
+
+	// Result
 	// Error
 }
 
 type Notification struct {
-	RPC string `json:"jsonrpc"`
+	RPC    string `json:"jsonrpc"`
 	Method string `json:"method"`
 }
